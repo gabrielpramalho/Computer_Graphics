@@ -1,0 +1,29 @@
+
+html{
+    text-align: center;
+}
+
+.btns-list{
+    display: flex;
+    justify-content: center;
+}
+
+.btns-list button{
+    background-color: #0cd664;
+    border: none;
+    padding: 1rem;
+    margin-right: .5rem;
+    color: #fff;
+    border-radius: 1rem;
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
+    margin-bottom: 2rem;
+    cursor: pointer;
+}
+
+.btns-list button:hover{
+    background-color: #13c05e;
+}
+
