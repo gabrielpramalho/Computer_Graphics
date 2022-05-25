@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Graphics</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div>
+        <h1>Pixel Position</h1>
+    </div>
+    
+    <div class="btns-list">
+        <div>
+            <button id="btnLoad">Load Images</button>
+        </div>
+        <div class="scale">
+            <div>
+                <p>Scales:</p>
+            </div>
+            <div>
+                <button id="btnGreyScale" class="grey">Grey Scale</button>
+            </div>
+        </div>
+        <div class="Mesures">
+            <div>
+                <p>Mesures:</p>
+            </div>
+            <div>
+                <button id="btnMean">Mean</button>
+            </div>
+        </div>
+        
+        <div class="colors">
+            <div>
+                <p>Colors:</p>
+            </div>
+            <div>
+                <button id="btnRed" class="red">Red</button>
+            </div>
+            <div>
+                <button id="btnGreen" class="green">Green</button>
+            </div>
+            <div>
+                <button id="btnBlue" class="blue" >Blue</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="imgs">
+        <div>
+            <img id="image" src="assets/clown-fish.jpg" alt="lendas">
+        </div>
+        <div>
+            <canvas id="image-canvas"></canvas>
+        </div>
+    </div>
+    
+<script src="main.js"></script>
+</body>
+</html>
