@@ -7,12 +7,12 @@ cv.imshow('Park', img)
 # Converting to grayscale
 
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-#cv.imshow('Gray', gray)
+cv.imshow('Gray', gray)
 
 # Blur
 
 blur = cv.GaussianBlur(gray, (3,3), cv.BORDER_DEFAULT)
-# cv.imshow('Blur', blur)
+cv.imshow('Blur', blur)
 
 # Edge Cascade
 
