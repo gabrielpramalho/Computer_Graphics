@@ -153,20 +153,45 @@ let brightness = function() {
     let img = new MatrixImage(imageData);
     for (var i = 0; i < img.width; i++) {
         for (var j = 0; j < img.height; j++) {
-            var pixel = Array();
-
-            pixel.push(img.getPixel(i-1,j-1).red);
-            pixel.push(img.getPixel(i,j-1).red);
-            pixel.push(img.getPixel(i+1,j-1).red);
-            pixel.push(img.getPixel(i-1,j).red);
-            pixel.push(img.getPixel(i,j).red);
-            pixel.push(img.getPixel(i+1,j).red);
-            pixel.push(img.getPixel(i-1,j+1).red);
-            pixel.push(img.getPixel(i,j+1).red);
-            pixel.push(img.getPixel(i+1,j+1).red);
-            var gray = img.getPixel(i,j).blue;
+            
     
-            img.setPixel(i, j, new RGBColor(gray+2, gray+2, gray+2));
+            img.setPixel(i, j, new RGBColor(img.getPixel(i,j).red+5, img.getPixel(i,j).green+5, img.getPixel(i,j).blue+5));
+        }
+    }
+    context.putImageData(img.imageData, 0, 0);
+}
+
+let contrast = function() {
+    let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    let img = new MatrixImage(imageData);
+    for (var i = 0; i < img.width; i++) {
+        for (var j = 0; j < img.height; j++) {
+            
+    
+            img.setPixel(i, j, new RGBColor(img.getPixel(i,j).red-5, img.getPixel(i,j).green-5, img.getPixel(i,j).blue-5));
+        }
+    }
+    context.putImageData(img.imageData, 0, 0);
+}
+
+let flipHorizontal = function() {
+    let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    let img = new MatrixImage(imageData);
+    for (var i = 0; i < img.height; i++) {
+        for (var j = 0; j < img.width; j++) {
+            
+            var len = img.width-1
+
+
+            var auxRed = img.getPixel(j,i).red
+            var auxGreen = img.getPixel(j,i).green
+            var auxBlue = img.getPixel(j,i).blue
+
+            img.setPixel(j, i, new RGBColor(img.getPixel(j,len-i).red, img.getPixel(j,len-i).green, img.getPixel(j,len-i).blue));
+            img.setPixel(j, len-i, new RGBColor(auxRed, auxGreen, auxBlue));
+
+
+
         }
     }
     context.putImageData(img.imageData, 0, 0);
@@ -214,4 +239,6 @@ document.getElementById('btnGreen').addEventListener('click', green);
 document.getElementById('btnGreen').addEventListener('click', green);
 document.getElementById('btnBlue').addEventListener('click', blue);
 document.getElementById('btnBrightness').addEventListener('click', brightness);
+document.getElementById('btnContrast').addEventListener('click', contrast);
+document.getElementById('btnFlipHorizontal').addEventListener('click', flipHorizontal);
 
