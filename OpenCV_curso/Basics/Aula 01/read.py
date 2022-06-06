@@ -10,7 +10,8 @@ import cv2 as cv
 
 #Reading Videos
 
-capture = cv.VideoCapture('../Videos/dog.mp4')
+# capture = cv.VideoCapture('../Videos/dog.mp4')
+capture = cv.VideoCapture(0)
 
 while True:
     isTrue, frame = capture.read()
