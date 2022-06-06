@@ -36,15 +36,38 @@ let mean = function() {
         for (var j = 0; j < img.height; j++) {
             var pixel = Array();
             pixel.push(img.getPixel(i-1,j-1).red);
-            pixel.push(img.getPixel(i-1,j).red);
             pixel.push(img.getPixel(i,j-1).red);
             pixel.push(img.getPixel(i+1,j-1).red);
+            pixel.push(img.getPixel(i-1,j).red);
             pixel.push(img.getPixel(i,j).red);
+            pixel.push(img.getPixel(i+1,j).red);
             pixel.push(img.getPixel(i-1,j+1).red);
             pixel.push(img.getPixel(i,j+1).red);
-            pixel.push(img.getPixel(i+1,j).red);
             pixel.push(img.getPixel(i+1,j+1).red);
             var gray = pixel.reduce((a, b) => a + b, 0) / 9;
+    
+            img.setPixel(i, j, new RGBColor(gray, gray, gray));
+        }
+    }
+    context.putImageData(img.imageData, 0, 0);
+}
+
+let median = function() {
+    let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    let img = new MatrixImage(imageData);
+    for (var i = 0; i < img.width; i++) {
+        for (var j = 0; j < img.height; j++) {
+            var pixel = Array();
+            pixel.push(img.getPixel(i-1,j-1).red);
+            pixel.push(img.getPixel(i,j-1).red);
+            pixel.push(img.getPixel(i+1,j-1).red);
+            pixel.push(img.getPixel(i-1,j).red);
+            pixel.push(img.getPixel(i,j).red);
+            pixel.push(img.getPixel(i+1,j).red);
+            pixel.push(img.getPixel(i-1,j+1).red);
+            pixel.push(img.getPixel(i,j+1).red);
+            pixel.push(img.getPixel(i+1,j+1).red);
+            var gray = pixel.sort()[4];
     
             img.setPixel(i, j, new RGBColor(gray, gray, gray));
         }
@@ -124,6 +147,31 @@ let blue = function(){
     context.putImageData(img.imageData, 0, 0);
 }
 
+
+let brightness = function() {
+    let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    let img = new MatrixImage(imageData);
+    for (var i = 0; i < img.width; i++) {
+        for (var j = 0; j < img.height; j++) {
+            var pixel = Array();
+
+            pixel.push(img.getPixel(i-1,j-1).red);
+            pixel.push(img.getPixel(i,j-1).red);
+            pixel.push(img.getPixel(i+1,j-1).red);
+            pixel.push(img.getPixel(i-1,j).red);
+            pixel.push(img.getPixel(i,j).red);
+            pixel.push(img.getPixel(i+1,j).red);
+            pixel.push(img.getPixel(i-1,j+1).red);
+            pixel.push(img.getPixel(i,j+1).red);
+            pixel.push(img.getPixel(i+1,j+1).red);
+            var gray = img.getPixel(i,j).blue;
+    
+            img.setPixel(i, j, new RGBColor(gray+2, gray+2, gray+2));
+        }
+    }
+    context.putImageData(img.imageData, 0, 0);
+}
+
 class RGBColor {
     constructor(r, g, b) {
       this.red = r;
@@ -160,8 +208,10 @@ class MatrixImage {
 document.getElementById('btnLoad').addEventListener('click', load);
 document.getElementById('btnGreyScale').addEventListener('click', greyScale);
 document.getElementById('btnMean').addEventListener('click', mean);
+document.getElementById('btnMedian').addEventListener('click', median);
 document.getElementById('btnRed').addEventListener('click', red);
 document.getElementById('btnGreen').addEventListener('click', green);
 document.getElementById('btnGreen').addEventListener('click', green);
 document.getElementById('btnBlue').addEventListener('click', blue);
+document.getElementById('btnBrightness').addEventListener('click', brightness);
 

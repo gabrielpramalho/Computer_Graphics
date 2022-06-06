@@ -24,6 +24,13 @@ html{
     background-color: #707070!important;
 }
 
+.white{
+    color: #000!important;
+    background-color: #fff!important;
+    border: 1px solid black!important;
+
+}
+
 .red{
     background-color: #ff2e2e!important;
 }
