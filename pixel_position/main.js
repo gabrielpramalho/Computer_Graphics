@@ -28,6 +28,23 @@ let greyScale = function() {
     }
     context.putImageData(img.imageData, 0, 0);
 }
+let thresholding = function() {
+    let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    let img = new MatrixImage(imageData);
+    for (var i = 0; i < img.width; i++) {
+        for (var j = 0; j < img.height; j++) {
+            var pixel = img.getPixel(i,j).green;
+
+            if(pixel > 100){
+                img.setPixel(i,j, new RGBColor(255,255,255));
+            }else{
+                img.setPixel(i,j, new RGBColor(0,0,0));
+            }
+            
+        }
+    }
+    context.putImageData(img.imageData, 0, 0);
+}
 
 let mean = function() {
     let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
@@ -81,16 +98,7 @@ let red = function(){
 
     for (var i = 0; i < img.width; i++) {
         for (var j = 0; j < img.height; j++) {
-            var pixel = Array();
-            pixel.push(img.getPixel(i-1,j-1).red);
-            pixel.push(img.getPixel(i,j-1).red);
-            pixel.push(img.getPixel(i+1,j-1).red);
-            pixel.push(img.getPixel(i-1,j).red);
-            pixel.push(img.getPixel(i,j).red);
-            pixel.push(img.getPixel(i+1,j).red);
-            pixel.push(img.getPixel(i-1,j+1).red);
-            pixel.push(img.getPixel(i,j+1).red);
-            pixel.push(img.getPixel(i+1,j+1).red);
+
             var gray = img.getPixel(i,j).red;
     
             img.setPixel(i, j, new RGBColor(gray, gray, gray));
@@ -105,16 +113,7 @@ let green = function(){
 
     for (var i = 0; i < img.width; i++) {
         for (var j = 0; j < img.height; j++) {
-            var pixel = Array();
-            pixel.push(img.getPixel(i-1,j-1).red);
-            pixel.push(img.getPixel(i,j-1).red);
-            pixel.push(img.getPixel(i+1,j-1).red);
-            pixel.push(img.getPixel(i-1,j).red);
-            pixel.push(img.getPixel(i,j).red);
-            pixel.push(img.getPixel(i+1,j).red);
-            pixel.push(img.getPixel(i-1,j+1).red);
-            pixel.push(img.getPixel(i,j+1).red);
-            pixel.push(img.getPixel(i+1,j+1).red);
+            
             var gray = img.getPixel(i,j).green;
     
             img.setPixel(i, j, new RGBColor(gray, gray, gray));
@@ -130,15 +129,7 @@ let blue = function(){
     for (var i = 0; i < img.width; i++) {
         for (var j = 0; j < img.height; j++) {
             var pixel = Array();
-            pixel.push(img.getPixel(i-1,j-1).red);
-            pixel.push(img.getPixel(i,j-1).red);
-            pixel.push(img.getPixel(i+1,j-1).red);
-            pixel.push(img.getPixel(i-1,j).red);
-            pixel.push(img.getPixel(i,j).red);
-            pixel.push(img.getPixel(i+1,j).red);
-            pixel.push(img.getPixel(i-1,j+1).red);
-            pixel.push(img.getPixel(i,j+1).red);
-            pixel.push(img.getPixel(i+1,j+1).red);
+
             var gray = img.getPixel(i,j).blue;
     
             img.setPixel(i, j, new RGBColor(gray, gray, gray));
@@ -177,21 +168,19 @@ let contrast = function() {
 let flipHorizontal = function() {
     let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     let img = new MatrixImage(imageData);
-    for (var i = 0; i < img.height; i++) {
-        for (var j = 0; j < img.width; j++) {
+    for (var i = 0; i < img.width; i++) {
+        for (var j = 0; j < img.height; j++) {
             
             var len = img.width-1
 
+            // alpha
+            var auxRed = img.getPixel(i,j).red
+            var auxGreen = img.getPixel(i,j).green
+            var auxBlue = img.getPixel(i,j).blue
 
-            var auxRed = img.getPixel(j,i).red
-            var auxGreen = img.getPixel(j,i).green
-            var auxBlue = img.getPixel(j,i).blue
 
-            img.setPixel(j, i, new RGBColor(img.getPixel(j,len-i).red, img.getPixel(j,len-i).green, img.getPixel(j,len-i).blue));
+            img.setPixel(i, j, new RGBColor(img.getPixel(j,len-i).red, img.getPixel(j,len-i).green, img.getPixel(j,len-i).blue));
             img.setPixel(j, len-i, new RGBColor(auxRed, auxGreen, auxBlue));
-
-
-
         }
     }
     context.putImageData(img.imageData, 0, 0);
@@ -230,8 +219,10 @@ class MatrixImage {
     }
 }
 
+window.onload = load();
 document.getElementById('btnLoad').addEventListener('click', load);
 document.getElementById('btnGreyScale').addEventListener('click', greyScale);
+document.getElementById('btnThresholding').addEventListener('click', thresholding);
 document.getElementById('btnMean').addEventListener('click', mean);
 document.getElementById('btnMedian').addEventListener('click', median);
 document.getElementById('btnRed').addEventListener('click', red);
