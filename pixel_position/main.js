@@ -168,19 +168,39 @@ let contrast = function() {
 let flipHorizontal = function() {
     let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     let img = new MatrixImage(imageData);
-    for (var i = 0; i < img.width; i++) {
+    for (var i = 0; i < img.width/2; i++) {
         for (var j = 0; j < img.height; j++) {
             
             var len = img.width-1
 
-            // alpha
-            var auxRed = img.getPixel(i,j).red
-            var auxGreen = img.getPixel(i,j).green
-            var auxBlue = img.getPixel(i,j).blue
 
+            var aux = img.getPixel(i,j);
 
-            img.setPixel(i, j, new RGBColor(img.getPixel(j,len-i).red, img.getPixel(j,len-i).green, img.getPixel(j,len-i).blue));
-            img.setPixel(j, len-i, new RGBColor(auxRed, auxGreen, auxBlue));
+            img.setPixel(i,j, new RGBColor(img.getPixel(len-i, j).red,img.getPixel(len-i, j).green,img.getPixel(len-i, j).blue));
+            
+
+            img.setPixel(len-i, j, new RGBColor(aux.red, aux.green, aux.blue));
+
+        }
+    }
+    context.putImageData(img.imageData, 0, 0);
+}
+
+let flipVertical = function() {
+    let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    let img = new MatrixImage(imageData);
+    for (var i = 0; i < img.width; i++) {
+        for (var j = 0; j < img.height/2; j++) {
+            
+            var len = img.height-1
+
+            var aux = img.getPixel(i,j);
+
+            img.setPixel(i,j, new RGBColor(img.getPixel(i, len-j).red,img.getPixel(i, len-j).green,img.getPixel(i, len-j).blue));
+            
+
+            img.setPixel(i, len-j, new RGBColor(aux.red, aux.green, aux.blue));
+
         }
     }
     context.putImageData(img.imageData, 0, 0);
@@ -232,4 +252,5 @@ document.getElementById('btnBlue').addEventListener('click', blue);
 document.getElementById('btnBrightness').addEventListener('click', brightness);
 document.getElementById('btnContrast').addEventListener('click', contrast);
 document.getElementById('btnFlipHorizontal').addEventListener('click', flipHorizontal);
+document.getElementById('btnFlipVertical').addEventListener('click', flipVertical);
 
