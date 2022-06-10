@@ -4,7 +4,7 @@ import numpy as np
 import imutils
 
 
-img = cv.imread('Imagem/coins2.jpg')
+img = cv.imread('Imagem/coins3.jpg')
 cv.imshow('Moedas', img)
 
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)

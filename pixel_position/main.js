@@ -155,13 +155,29 @@ let brightness = function() {
 let contrast = function() {
     let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     let img = new MatrixImage(imageData);
+    let maior = 0
+    let menor = 255
+
     for (var i = 0; i < img.width; i++) {
         for (var j = 0; j < img.height; j++) {
-            
-    
-            img.setPixel(i, j, new RGBColor(img.getPixel(i,j).red-5, img.getPixel(i,j).green-5, img.getPixel(i,j).blue-5));
+
+            let gray = img.getPixel(i,j).red
+
+            gray = gray*0.4 + 2
+            img.setPixel(i,j, new RGBColor(gray, gray, gray))
+
+            // if(gray < menor){
+            //     menor = gray
+            // }
+
+            // if(gray > maior){
+            //     maior = gray
+            // }
+
         }
     }
+
+    console.log(`O maior é ${maior}, e o menor ${menor}`);
     context.putImageData(img.imageData, 0, 0);
 }
 
@@ -172,13 +188,10 @@ let flipHorizontal = function() {
         for (var j = 0; j < img.height; j++) {
             
             var len = img.width-1
-
-
             var aux = img.getPixel(i,j);
 
             img.setPixel(i,j, new RGBColor(img.getPixel(len-i, j).red,img.getPixel(len-i, j).green,img.getPixel(len-i, j).blue));
-            
-
+        
             img.setPixel(len-i, j, new RGBColor(aux.red, aux.green, aux.blue));
 
         }
@@ -193,7 +206,6 @@ let flipVertical = function() {
         for (var j = 0; j < img.height/2; j++) {
             
             var len = img.height-1
-
             var aux = img.getPixel(i,j);
 
             img.setPixel(i,j, new RGBColor(img.getPixel(i, len-j).red,img.getPixel(i, len-j).green,img.getPixel(i, len-j).blue));
