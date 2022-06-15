@@ -19,10 +19,12 @@ dilation = cv.dilate(thresh,kernel,iterations = 1)
 cv.imshow('Dilation', dilation)
 
 cnts = cv.findContours(dilation.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-
-
 cnts = imutils.grab_contours(cnts)
 objects = str(len(cnts))
 print(objects)
+
+
+
+
 
 cv.waitKey(0)

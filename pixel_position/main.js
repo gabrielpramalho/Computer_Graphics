@@ -92,6 +92,29 @@ let median = function() {
     context.putImageData(img.imageData, 0, 0);
 }
 
+let gaussian = function() {
+    let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    let img = new MatrixImage(imageData);
+    for (var i = 0; i < img.width; i++) {
+        for (var j = 0; j < img.height; j++) {
+            var pixel = Array();
+            pixel.push(img.getPixel(i-1,j-1).red * 1);
+            pixel.push(img.getPixel(i,j-1).red * 2);
+            pixel.push(img.getPixel(i+1,j-1).red * 1);
+            pixel.push(img.getPixel(i-1,j).red * 2);
+            pixel.push(img.getPixel(i,j).red * 4);
+            pixel.push(img.getPixel(i+1,j).red * 2);
+            pixel.push(img.getPixel(i-1,j+1).red * 1);
+            pixel.push(img.getPixel(i,j+1).red * 2);
+            pixel.push(img.getPixel(i+1,j+1).red * 1);
+            var gray = pixel.reduce((a, b) => a + b, 0) / 16;
+    
+            img.setPixel(i, j, new RGBColor(gray, gray, gray));
+        }
+    }
+    context.putImageData(img.imageData, 0, 0);
+}
+
 let red = function(){
     let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     let img = new MatrixImage(imageData);
@@ -155,29 +178,29 @@ let brightness = function() {
 let contrast = function() {
     let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     let img = new MatrixImage(imageData);
-    let maior = 0
-    let menor = 255
+
+    let redAux=0
+    let greenAux=0
+    let blueAux=0
 
     for (var i = 0; i < img.width; i++) {
         for (var j = 0; j < img.height; j++) {
-
-            let gray = img.getPixel(i,j).red
-
-            gray = gray*0.4 + 2
-            img.setPixel(i,j, new RGBColor(gray, gray, gray))
-
-            // if(gray < menor){
-            //     menor = gray
-            // }
-
-            // if(gray > maior){
-            //     maior = gray
-            // }
-
+            redAux += img.getPixel(i,j).red;
+            greenAux += img.getPixel(i,j).green;
+            blueAux += img.getPixel(i,j).blue;
         }
     }
 
-    console.log(`O maior é ${maior}, e o menor ${menor}`);
+    redAux = redAux % 255 * 0.02;
+    greenAux = greenAux % 255 * 0.02;
+    blueAux = blueAux % 255 * 0.02;
+
+    for (var i = 0; i < img.width; i++) {
+        for (var j = 0; j < img.height; j++) {
+            img.setPixel(i, j, new RGBColor(img.getPixel(i,j).red*redAux, img.getPixel(i,j).green*greenAux, img.getPixel(i,j).blue*blueAux));
+        }
+    }
+
     context.putImageData(img.imageData, 0, 0);
 }
 
@@ -210,7 +233,6 @@ let flipVertical = function() {
 
             img.setPixel(i,j, new RGBColor(img.getPixel(i, len-j).red,img.getPixel(i, len-j).green,img.getPixel(i, len-j).blue));
             
-
             img.setPixel(i, len-j, new RGBColor(aux.red, aux.green, aux.blue));
 
         }
@@ -257,6 +279,7 @@ document.getElementById('btnGreyScale').addEventListener('click', greyScale);
 document.getElementById('btnThresholding').addEventListener('click', thresholding);
 document.getElementById('btnMean').addEventListener('click', mean);
 document.getElementById('btnMedian').addEventListener('click', median);
+document.getElementById('btnGaussian').addEventListener('click', gaussian);
 document.getElementById('btnRed').addEventListener('click', red);
 document.getElementById('btnGreen').addEventListener('click', green);
 document.getElementById('btnGreen').addEventListener('click', green);
