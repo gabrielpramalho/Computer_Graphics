@@ -240,6 +240,36 @@ let flipVertical = function() {
     context.putImageData(img.imageData, 0, 0);
 }
 
+let flip90 = function() {
+    let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    let img = new MatrixImage(imageData);
+    // for (var i = 0; i < img.width/2; i++) {
+    //     for (var j = 0; j < img.height/2; j++) {
+            
+    //         var len = img.width
+
+    //         var original = img.getPixel(i,j);
+    //         var linha = i
+    //         var coluna = j
+
+    //         for(let l = 0; l < 3; l++){
+    //             if(l % 2 == 0){
+    //                 img.setPixel(linha, coluna, new RGBColor(img.getPixel(linha, len-coluna).red,img.getPixel(linha, len-coluna).green,img.getPixel(linha, len-coluna).blue));
+    //             }else{
+    //                 img.setPixel(linha, coluna, new RGBColor(img.getPixel(len-linha, coluna).red,img.getPixel(len-linha, coluna).green,img.getPixel(len-linha, coluna).blue));
+    //             }
+    //             let aux = linha;
+    //             linha = coluna;
+    //             coluna = aux;
+    //         }
+
+    //         img.setPixel(linha, coluna, new RGBColor(original.red, original.green, original.blue));
+
+    //     }
+    // }
+    // context.putImageData(img.imageData, 0, 0);
+}
+
 class RGBColor {
     constructor(r, g, b) {
       this.red = r;
@@ -288,4 +318,5 @@ document.getElementById('btnBrightness').addEventListener('click', brightness);
 document.getElementById('btnContrast').addEventListener('click', contrast);
 document.getElementById('btnFlipHorizontal').addEventListener('click', flipHorizontal);
 document.getElementById('btnFlipVertical').addEventListener('click', flipVertical);
+document.getElementById('btnFlip90').addEventListener('click', flip90);
 
