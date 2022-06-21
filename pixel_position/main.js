@@ -2,6 +2,7 @@ var image = document.getElementById("image");
 var canvas = document.getElementById('image-canvas');
 var context;
 
+
 let load = function (){
     
     context = canvas.getContext('2d');
@@ -10,9 +11,17 @@ let load = function (){
     context.drawImage(image, 0, 0);
 }
 
-let drawImage = function(cv, ctx, img) {
-    cv.width = img.width;
-    cv.height = img.height;
+let drawImage = function(cv, ctx, img, invertAxios=false) {
+    let width = img.width;
+    let height = img.height;
+
+    if(invertAxios){
+        width = img.height;
+        height = img.width
+    }
+    
+    cv.width = width;
+    cv.height = height;
     ctx.drawImage(img, 0, 0);
 }
 
@@ -28,6 +37,7 @@ let greyScale = function() {
     }
     context.putImageData(img.imageData, 0, 0);
 }
+
 let thresholding = function() {
     let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     let img = new MatrixImage(imageData);
@@ -114,6 +124,7 @@ let gaussian = function() {
     }
     context.putImageData(img.imageData, 0, 0);
 }
+
 
 let red = function(){
     let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
@@ -241,33 +252,19 @@ let flipVertical = function() {
 }
 
 let flip90 = function() {
+    drawImage(canvas, context, image);
     let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    let imageDataFlip = context.getImageData(0, 0, canvas.width, canvas.height);
     let img = new MatrixImage(imageData);
-    // for (var i = 0; i < img.width/2; i++) {
-    //     for (var j = 0; j < img.height/2; j++) {
-            
-    //         var len = img.width
-
-    //         var original = img.getPixel(i,j);
-    //         var linha = i
-    //         var coluna = j
-
-    //         for(let l = 0; l < 3; l++){
-    //             if(l % 2 == 0){
-    //                 img.setPixel(linha, coluna, new RGBColor(img.getPixel(linha, len-coluna).red,img.getPixel(linha, len-coluna).green,img.getPixel(linha, len-coluna).blue));
-    //             }else{
-    //                 img.setPixel(linha, coluna, new RGBColor(img.getPixel(len-linha, coluna).red,img.getPixel(len-linha, coluna).green,img.getPixel(len-linha, coluna).blue));
-    //             }
-    //             let aux = linha;
-    //             linha = coluna;
-    //             coluna = aux;
-    //         }
-
-    //         img.setPixel(linha, coluna, new RGBColor(original.red, original.green, original.blue));
-
-    //     }
-    // }
-    // context.putImageData(img.imageData, 0, 0);
+    let imgFlip = new MatrixImage(imageDataFlip);
+    
+    for (var i = 0; i < img.width; i++) {
+        for (var j = 0; j < img.height; j++) {
+            const pixel = img.getPixel(img.width-j,i);
+            imgFlip.setPixel(i, j, pixel)
+        }
+    }
+    context.putImageData(imgFlip.imageData, 0, 0);
 }
 
 class RGBColor {
