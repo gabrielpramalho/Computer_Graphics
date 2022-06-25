@@ -264,6 +264,7 @@ let flip90 = function() {
             imgFlip.setPixel(i, j, pixel)
         }
     }
+
     context.putImageData(imgFlip.imageData, 0, 0);
 }
 
